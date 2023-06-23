@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { SignUp } from './entities/user.entity';
+import { FormFileds, Gender, GenderMapping, SignUp } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Like, Repository } from 'typeorm';
 
@@ -11,6 +11,12 @@ export class UserService {
   constructor(
     @InjectRepository(SignUp)
     private readonly userRepository: Repository<SignUp>,
+    @InjectRepository(Gender)
+    private genderRepository:Repository<Gender>,
+    @InjectRepository(FormFileds)
+    private formFiledsRepository:Repository<FormFileds>,
+    @InjectRepository (GenderMapping)
+    private genderMappingRepository:Repository<GenderMapping>
   ) { }
 
 
@@ -49,7 +55,7 @@ export class UserService {
 
 
 
- async getAllUser() {
+  async getAllUser() {
     return await this.userRepository.find({ select: ['id', 'userName', 'email'] });
   }
 
@@ -61,9 +67,24 @@ export class UserService {
       .where('u.userName LIKE :search or u.email LIKE :search', { search: `%${searchQuery}%` })
       .getRawMany();
   }
+  //form fields table
 
+  async createFormFields(createFormFieldsDto: any) {
+    return await this.formFiledsRepository.save(createFormFieldsDto);
+  }
 
+  // Gender table
 
+  async getGender(){
+    return await this.genderRepository.find({select:['id','genderName']});
+  }
+//gender mapping table
+
+async createGenderMapping(userid:number,genderid:number){
+  console.log('useridd',userid,'genderid',genderid);
+  
+  return await this.genderMappingRepository.save({userId:userid,genderId:genderid});
+}
 
 }
 

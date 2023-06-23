@@ -257,21 +257,43 @@ export class UserController {
     try {
       // console.log(search);
       console.log(req.query.search);
-      let search = req.query.search as string;    
-      
+      let search = req.query.search as string;
+
       if (search) {
-          const searchUser = await this.userService.searchUser(search); 
-          console.log(searchUser,'searchUser');          
-          return res.status(HttpStatus.OK).json({ message: 'Search User...', data: searchUser, status: true });
+        const searchUser = await this.userService.searchUser(search);
+        console.log(searchUser, 'searchUser');
+        return res.status(HttpStatus.OK).json({ message: 'Search User...', data: searchUser, status: true });
       } else {
         const allUser = await this.userService.getAllUser();
-        console.log(allUser,'allUser');
-        
+        console.log(allUser, 'allUser');
+
         return res.status(HttpStatus.OK).json({ message: 'All User', data: allUser, status: true });
       }
 
     } catch (err) {
       console.log(err);
+    }
+  }
+
+  // get from gender table
+
+  @Get('getGender')
+  async getGender(@Req() req: Request, @Res() res: Response,) {
+    try {
+      const getGender = await this.userService.getGender();
+      return res.status(HttpStatus.OK).json({ message: "success", data: getGender, status: true })
+    } catch (err) {
+    }
+  }
+
+  @Post('addUser')
+  async addUser(@Req() req: Request, @Res() res: Response, @Body() addGenderDto: CreateUserDto) {
+    try {
+      const createUser = await this.userService.createFormFields(addGenderDto);
+      const addGender = await this.userService.createGenderMapping(createUser.id,addGenderDto.gender);
+      return res.status(HttpStatus.OK).json({ message: "success", data: createUser, status: true })
+    } catch (err) {
+      console.log(err);      
     }
   }
 }

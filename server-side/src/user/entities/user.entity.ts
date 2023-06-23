@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import exp from "constants";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToMany, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity()
 export class SignUp {
@@ -41,6 +42,97 @@ export class SignUp {
 
     @DeleteDateColumn()
     deletedAt: Date;
+
+    @Column({nullable:true})
+    deleteBy: number;
+}
+
+@Entity()   
+export class FormFileds {
+
+    @PrimaryGeneratedColumn()
+    id: number;
+
+    @Column()
+    userName: string;
+
+    @CreateDateColumn()
+    createdAt: Date;
+
+    @Column({nullable:true})
+    createBy: number;
+
+    @UpdateDateColumn()
+    updatedAt: Date;
+
+    @Column({nullable:true})
+    updateBy: number;
+
+    @DeleteDateColumn()
+    deletedAt: Date;    
+
+    @Column({nullable:true})
+    deleteBy: number;
+    
+}
+
+@Entity()
+export class Gender {
+
+    @PrimaryGeneratedColumn()
+    id: number;
+
+    @Column()
+    genderName: string;
+
+    @CreateDateColumn()
+    createdAt: Date;
+
+    @Column({nullable:true})
+    createBy: number;
+
+    @UpdateDateColumn()
+    updatedAt: Date;
+
+    @Column({nullable:true})
+    updateBy: number;
+
+    @DeleteDateColumn()
+    deletedAt: Date;    
+
+    @Column({nullable:true})
+    deleteBy: number;
+    
+}
+
+@Entity()
+export class GenderMapping {
+
+    @PrimaryGeneratedColumn()
+    id: number;
+
+    @ManyToOne(() => FormFileds, (FormFileds) => FormFileds.id)
+    @JoinColumn({ name: "userId" })
+    userId: number;
+
+    @ManyToOne(() => Gender, (gender) =>gender.id)  
+    @JoinColumn({ name: "genderId" })
+    genderId: number;
+
+    @CreateDateColumn()
+    createdAt: Date;
+
+    @Column({nullable:true})
+    createBy: number;
+
+    @UpdateDateColumn()
+    updatedAt: Date;
+
+    @Column({nullable:true})
+    updateBy: number;
+
+    @DeleteDateColumn()
+    deletedAt: Date;    
 
     @Column({nullable:true})
     deleteBy: number;
