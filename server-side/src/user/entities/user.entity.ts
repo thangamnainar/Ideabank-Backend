@@ -137,3 +137,68 @@ export class GenderMapping {
     @Column({nullable:true})
     deleteBy: number;
 }
+
+@Entity()
+export class District {
+
+    @PrimaryGeneratedColumn()
+    id: number;
+
+    @Column()
+    districtName: string;
+
+    @CreateDateColumn()
+    createdAt: Date;
+
+    @Column({nullable:true})
+    createBy: number;
+
+    @UpdateDateColumn()
+    updatedAt: Date;
+
+    @Column({nullable:true})
+    updateBy: number;
+
+    @DeleteDateColumn()
+    deletedAt: Date;
+
+    @Column({nullable:true})
+    deleteBy: number;
+
+}
+
+@Entity()
+export class DistrictMapping {
+
+    @PrimaryGeneratedColumn()
+    id: number;
+
+    @ManyToOne(() => FormFileds, (FormFileds) => FormFileds.id)
+    @JoinColumn({ name: "userId" })
+    userId: number;
+
+    @ManyToOne(() => District, (district) =>district.id)
+    @JoinColumn({ name: "districtId" }) 
+    districtId: number;
+
+
+    @CreateDateColumn()
+    createdAt: Date;
+
+    @Column({nullable:true})
+    createBy: number;
+
+    @UpdateDateColumn()
+    updatedAt: Date;
+
+    @Column({nullable:true})
+    updateBy: number;
+
+    @DeleteDateColumn()
+    deletedAt: Date;
+
+    @Column({nullable:true})
+    deleteBy: number;
+
+
+}

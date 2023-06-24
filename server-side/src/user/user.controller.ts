@@ -5,6 +5,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { MailerService } from 'src/mailer.service';
 import { Request, Response } from 'express';
 import * as bcrypt from 'bcrypt';
+import * as jwt from 'jsonwebtoken';
 
 @Controller('user')
 export class UserController {
@@ -252,6 +253,9 @@ export class UserController {
     }
   }
 
+  //search user
+
+
   @Get('getall')
   async getAllUser(@Req() req: Request, @Res() res: Response,) {
     try {
@@ -275,6 +279,20 @@ export class UserController {
     }
   }
 
+  // get from Form details table
+
+  @Get('getFormFields')
+  async getFormFields(@Req() req: Request, @Res() res: Response,) {
+    try {
+      const getFormFields = await this.userService.getFormFields();
+      return res.status(HttpStatus.OK).json({ message: "success", data: getFormFields, status: true })
+    } catch (err) {
+      console.log(err);
+      
+    }
+  }
+
+
   // get from gender table
 
   @Get('getGender')
@@ -289,9 +307,23 @@ export class UserController {
   @Post('addUser')
   async addUser(@Req() req: Request, @Res() res: Response, @Body() addGenderDto: CreateUserDto) {
     try {
+      console.log(addGenderDto);      
       const createUser = await this.userService.createFormFields(addGenderDto);
       const addGender = await this.userService.createGenderMapping(createUser.id,addGenderDto.gender);
+      const addDistrict = await this.userService.createDistrictMapping(createUser.id,addGenderDto.district);
       return res.status(HttpStatus.OK).json({ message: "success", data: createUser, status: true })
+    } catch (err) {
+      console.log(err);      
+    }
+  }
+
+  // get from district table
+
+  @Get('getDistrict')
+  async getDistrict(@Req() req: Request, @Res() res: Response,) {
+    try {
+      const getDistrict = await this.userService.getDistrict();
+      return res.status(HttpStatus.OK).json({ message: "success", data: getDistrict, status: true })
     } catch (err) {
       console.log(err);      
     }

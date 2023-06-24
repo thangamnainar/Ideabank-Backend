@@ -12,4 +12,7 @@ export class CreateUserDto {
 
     @ApiProperty()
     gender: number;
+
+    @ApiProperty()
+    district: number;
 }
