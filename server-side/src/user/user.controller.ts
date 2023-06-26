@@ -303,14 +303,14 @@ export class UserController {
     } catch (err) {
     }
   }
-
+// ADD USER TABLE
   @Post('addUser')
   async addUser(@Req() req: Request, @Res() res: Response, @Body() addGenderDto: CreateUserDto) {
     try {
-      console.log(addGenderDto);      
+      console.log(addGenderDto,'addGenderDto');      
       const createUser = await this.userService.createFormFields(addGenderDto);
       const addGender = await this.userService.createGenderMapping(createUser.id,addGenderDto.gender);
-      const addDistrict = await this.userService.createDistrictMapping(createUser.id,addGenderDto.district);
+      const addDistrict = await this.userService.createDistrictMapping(createUser.id,addGenderDto.selectedCity.id);
       return res.status(HttpStatus.OK).json({ message: "success", data: createUser, status: true })
     } catch (err) {
       console.log(err);      

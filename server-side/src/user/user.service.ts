@@ -76,7 +76,7 @@ export class UserService {
   //form fields table
 
   async createFormFields(createFormFieldsDto: any) {
-    return await this.formFiledsRepository.save(createFormFieldsDto);
+    return await this.formFiledsRepository.save({userName:createFormFieldsDto.userName});
   }
 
   // Gender table

@@ -15,4 +15,7 @@ export class CreateUserDto {
 
     @ApiProperty()
     district: number;
+
+    @ApiProperty()
+    selectedCity: any;
 }
